@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PdfReader</string>
+    <string name="title_activity_pdfreader">PDFReaderActivity</string>
+    <string name="title_activity_pdf_reader">PdfReaderActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
