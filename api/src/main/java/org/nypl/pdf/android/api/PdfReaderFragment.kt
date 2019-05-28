@@ -8,6 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.github.barteksc.pdfviewer.PDFView
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
+import com.github.barteksc.pdfviewer.listener.OnPageErrorListener
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
+import com.github.barteksc.pdfviewer.util.FitPolicy
 import org.slf4j.LoggerFactory
 
 /**
@@ -19,7 +25,11 @@ import org.slf4j.LoggerFactory
  * create an instance of this fragment.
  *
  */
-class PdfReaderFragment : Fragment() {
+class PdfReaderFragment : Fragment(), OnPageChangeListener {
+    override fun onPageChanged(page: Int, pageCount: Int) {
+        this.listener.onReaderPageChanged(page)
+    }
+
 
     companion object {
         /**
@@ -35,9 +45,9 @@ class PdfReaderFragment : Fragment() {
         }
     }
 
-    // TODO: Rename and change types of parameters
     private lateinit var listener: PdfFragmentListenerType
     private lateinit var titleTextView: TextView
+    private lateinit var pdfView: PDFView
 
     private val log = LoggerFactory.getLogger(PdfReaderFragment::class.java)
 
@@ -71,11 +81,30 @@ class PdfReaderFragment : Fragment() {
 
         this.titleTextView = view.findViewById(R.id.title_textView)
         this.titleTextView.text = this.listener.onReaderWantsTitle()
+
+        this.pdfView = view.findViewById(R.id.pdfView)
+        displayFromInputStream()
+    }
+
+    private fun displayFromInputStream() {
+        var inputStream = this.listener.onReaderWantsInputStream()
+
+        pdfView.fromStream(inputStream)
+            .enableSwipe(true)
+            .swipeHorizontal(true)
+            .defaultPage(this.listener.onReaderWantsCurrentPage())
+            .pageSnap(true)
+            .pageFling(true)
+            .onPageChange(this)
+            .enableAnnotationRendering(true)
+            .scrollHandle(DefaultScrollHandle(context))
+            .spacing(10) // in dp
+            .pageFitPolicy(FitPolicy.BOTH)
+            .load()
     }
 
     override fun onDetach() {
         this.log.debug("onDetach")
         super.onDetach()
     }
-
 }

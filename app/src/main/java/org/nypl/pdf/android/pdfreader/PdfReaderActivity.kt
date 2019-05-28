@@ -2,6 +2,7 @@ package org.nypl.pdf.android.pdfreader
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.AssetManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,8 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
 
     private lateinit var readerFragment: PdfReaderFragment
     private lateinit var documentTitle: String
+    private var documentPageIndex: Int = 0
+    private lateinit var assetPath: String
 
     private val log: Logger = LoggerFactory.getLogger(PdfReaderActivity::class.java)
 
@@ -26,7 +29,8 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
 
         fun startActivity(
             from: Activity,
-            parameters: PdfReaderParameters) {
+            parameters: PdfReaderParameters
+        ) {
 
             val b = Bundle()
             b.putSerializable(this.PARAMS_ID, parameters)
@@ -43,7 +47,9 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
 
         val intentParams = intent?.getSerializableExtra(PARAMS_ID) as PdfReaderParameters
 
-        this.documentTitle = intentParams.assestPath;
+        this.documentTitle = intentParams.assestPath
+        this.assetPath = intentParams.assestPath
+        this.documentPageIndex = 0
 
         this.readerFragment = PdfReaderFragment.newInstance()
 
@@ -54,7 +60,8 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
     }
 
     override fun onReaderWantsInputStream(): InputStream {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var fileStream = assets.open(this.assetPath)
+        return fileStream
     }
 
     override fun onReaderWantsTitle(): String {
@@ -62,10 +69,10 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
     }
 
     override fun onReaderWantsCurrentPage(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return this.documentPageIndex
     }
 
     override fun onReaderPageChanged(pageIndex: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        this.documentPageIndex = pageIndex
     }
 }
