@@ -9,9 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.github.barteksc.pdfviewer.PDFView
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
-import com.github.barteksc.pdfviewer.listener.OnPageErrorListener
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
 import com.github.barteksc.pdfviewer.util.FitPolicy
 import org.slf4j.LoggerFactory
@@ -39,7 +37,7 @@ class PdfReaderFragment : Fragment(), OnPageChangeListener {
          * @return A new instance of fragment PdfReaderFragment.
          */
         @JvmStatic
-        fun newInstance() : PdfReaderFragment {
+        fun newInstance(): PdfReaderFragment {
             // TODO: Could do any initialization we wanted here and pass in params if needed.
             return PdfReaderFragment()
         }

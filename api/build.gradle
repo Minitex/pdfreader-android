@@ -32,7 +32,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // pdf viewer
-    implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
+    api 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
 
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
