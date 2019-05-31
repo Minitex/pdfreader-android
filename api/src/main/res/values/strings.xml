@@ -2,5 +2,6 @@
     <string name="app_name">API</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="document_title_placeholder">Document Title Placeholder</string>
+    <string name="pdf_reader_accessibility_toc">Show table of contents</string>
 </resources>

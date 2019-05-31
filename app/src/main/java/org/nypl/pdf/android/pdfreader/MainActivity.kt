@@ -15,12 +15,12 @@ class MainActivity : AppCompatActivity() {
 
         this.googleButton = findViewById(R.id.google_button)
         this.googleButton.setOnClickListener {
-            PdfReaderActivity.startActivity(this, PdfReaderParameters("sample", 0))
+            PdfReaderActivity.startActivity(this, PdfReaderParameters("sample.pdf", 0))
         }
 
         this.aliceButton = findViewById(R.id.alice_button)
         this.aliceButton.setOnClickListener {
-            PdfReaderActivity.startActivity(this, PdfReaderParameters("aliceInWonderland", 0))
+            PdfReaderActivity.startActivity(this, PdfReaderParameters("aliceInWonderland.pdf", 0))
         }
     }
 }
