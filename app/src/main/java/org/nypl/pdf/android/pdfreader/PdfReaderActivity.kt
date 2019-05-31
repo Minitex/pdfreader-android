@@ -14,6 +14,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 
+const val KEY_PAGE_INDEX = "page_index"
+
 class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
 
     private lateinit var readerFragment: PdfReaderFragment
@@ -22,7 +24,6 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
     private lateinit var assetPath: String
 
     private val log: Logger = LoggerFactory.getLogger(PdfReaderActivity::class.java)
-
 
     companion object {
         private const val PARAMS_ID = "org.nypl.pdf.android.pefreader.PdfReaderActivity.params"
@@ -44,12 +45,16 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdf_reader)
 
-
         val intentParams = intent?.getSerializableExtra(PARAMS_ID) as PdfReaderParameters
 
         this.documentTitle = intentParams.assestPath
         this.assetPath = intentParams.assestPath
-        this.documentPageIndex = 0
+
+        if (savedInstanceState != null) {
+            this.documentPageIndex = savedInstanceState.getInt(KEY_PAGE_INDEX, 0)
+        } else {
+            this.documentPageIndex = 0
+        }
 
         this.readerFragment = PdfReaderFragment.newInstance()
 
@@ -57,6 +62,11 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
             .beginTransaction()
             .replace(R.id.pdf_reader_fragment_holder, this.readerFragment, "READER")
             .commit()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(KEY_PAGE_INDEX, documentPageIndex)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onReaderWantsInputStream(): InputStream {
