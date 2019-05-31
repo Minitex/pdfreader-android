@@ -98,15 +98,16 @@ class PdfReaderFragment : Fragment(), OnPageChangeListener {
         var inputStream = this.listener.onReaderWantsInputStream()
 
         pdfView.fromStream(inputStream)
+            .defaultPage(this.listener.onReaderWantsCurrentPage())
             .enableSwipe(true)
             .swipeHorizontal(true)
-            .defaultPage(this.listener.onReaderWantsCurrentPage())
             .pageSnap(true)
             .pageFling(true)
+            .autoSpacing(true)
             .onPageChange(this)
             .enableAnnotationRendering(true)
             .scrollHandle(DefaultScrollHandle(context))
-            .spacing(10) // in dp
+//            .spacing(10) // in dp
             .pageFitPolicy(FitPolicy.BOTH)
             .load()
     }
