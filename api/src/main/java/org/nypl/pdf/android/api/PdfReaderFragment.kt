@@ -1,7 +1,7 @@
 package org.nypl.pdf.android.api
 
 import android.content.Context
-import android.net.Uri
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -82,8 +82,10 @@ class PdfReaderFragment : Fragment(), OnPageChangeListener {
 
         this.titleTextView = view.findViewById(R.id.title_textView)
         this.titleTextView.text = this.listener.onReaderWantsTitle()
+        // TODO: Handle hud colors? this.titleTextView.setTextColor(Color.BLUE)
 
         this.tocImage = view.findViewById(R.id.reader_toc)
+        // TODO: Handle hud colors? this.tocImage.setColorFilter(Color.BLACK)
         this.tocImage.setOnClickListener {
             Toast.makeText(context, "Implement Table of Contents", Toast.LENGTH_SHORT).show()
         }
