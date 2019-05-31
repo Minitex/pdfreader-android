@@ -13,3 +13,5 @@
 .externalNativeBuild
 
 \.idea/vcs\.xml
+
+\.idea/misc\.xml

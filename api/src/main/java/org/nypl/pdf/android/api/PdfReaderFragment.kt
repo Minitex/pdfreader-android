@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.github.barteksc.pdfviewer.PDFView
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
@@ -46,6 +48,7 @@ class PdfReaderFragment : Fragment(), OnPageChangeListener {
     private lateinit var listener: PdfFragmentListenerType
     private lateinit var titleTextView: TextView
     private lateinit var pdfView: PDFView
+    private lateinit var tocImage: ImageView
 
     private val log = LoggerFactory.getLogger(PdfReaderFragment::class.java)
 
@@ -79,6 +82,11 @@ class PdfReaderFragment : Fragment(), OnPageChangeListener {
 
         this.titleTextView = view.findViewById(R.id.title_textView)
         this.titleTextView.text = this.listener.onReaderWantsTitle()
+
+        this.tocImage = view.findViewById(R.id.reader_toc)
+        this.tocImage.setOnClickListener {
+            Toast.makeText(context, "Implement Table of Contents", Toast.LENGTH_SHORT).show()
+        }
 
         this.pdfView = view.findViewById(R.id.pdfView)
         displayFromInputStream()
