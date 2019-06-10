@@ -10,13 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.github.barteksc.pdfviewer.PDFView
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
 import com.github.barteksc.pdfviewer.util.FitPolicy
 import org.nypl.pdf.android.api.PdfFragmentListenerType
 import org.slf4j.LoggerFactory
 
-class PDFViewerFragment : Fragment(), OnPageChangeListener {
+class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListener {
+
 
     companion object {
         /**
@@ -39,9 +41,23 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener {
     private lateinit var pdfView: PDFView
     private lateinit var tocImage: ImageView
 
+
+    /**
+     * Fires when viewer has its page changed by the user
+     * (or presumably code as well).
+     */
     override fun onPageChanged(page: Int, pageCount: Int) {
         this.listener.onReaderPageChanged(page)
     }
+
+    /**
+     * Fires when viewer has completed loading the document.
+     */
+    override fun loadComplete(nbPages: Int) {
+        // table of contents and other file metadata not available until after load is complete
+        this.titleTextView.append(" " + this.pdfView.tableOfContents.size)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         this.log.debug("onCreate")
@@ -96,9 +112,9 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener {
             .pageFling(true)
             .autoSpacing(true)
             .onPageChange(this)
+            .onLoad(this)
             .enableAnnotationRendering(true)
             .scrollHandle(DefaultScrollHandle(context))
-//            .spacing(10) // in dp
             .pageFitPolicy(FitPolicy.BOTH)
             .load()
     }
