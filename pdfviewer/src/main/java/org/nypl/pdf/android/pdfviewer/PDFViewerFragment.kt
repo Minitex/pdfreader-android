@@ -1,7 +1,6 @@
-package org.nypl.pdf.android.api
+package org.nypl.pdf.android.pdfviewer
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -14,43 +13,35 @@ import com.github.barteksc.pdfviewer.PDFView
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
 import com.github.barteksc.pdfviewer.util.FitPolicy
+import org.nypl.pdf.android.api.PdfFragmentListenerType
 import org.slf4j.LoggerFactory
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [PdfReaderFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [PdfReaderFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
-class PdfReaderFragment : Fragment(), OnPageChangeListener {
-    override fun onPageChanged(page: Int, pageCount: Int) {
-        this.listener.onReaderPageChanged(page)
-    }
-
+class PDFViewerFragment : Fragment(), OnPageChangeListener {
 
     companion object {
         /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
+         * Factory method to create new instance of
+         * this fragment using provided params.
          *
-         * @return A new instance of fragment PdfReaderFragment.
+         * @return A new instance of fragment PDFViewerFragment.
          */
         @JvmStatic
-        fun newInstance(): PdfReaderFragment {
+        fun newInstance(): PDFViewerFragment {
             // TODO: Could do any initialization we wanted here and pass in params if needed.
-            return PdfReaderFragment()
+            return PDFViewerFragment()
         }
     }
+
+    private val log = LoggerFactory.getLogger(PDFViewerFragment::class.java)
 
     private lateinit var listener: PdfFragmentListenerType
     private lateinit var titleTextView: TextView
     private lateinit var pdfView: PDFView
     private lateinit var tocImage: ImageView
 
-    private val log = LoggerFactory.getLogger(PdfReaderFragment::class.java)
+    override fun onPageChanged(page: Int, pageCount: Int) {
+        this.listener.onReaderPageChanged(page)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         this.log.debug("onCreate")
@@ -73,7 +64,7 @@ class PdfReaderFragment : Fragment(), OnPageChangeListener {
     ): View? {
         // Inflate the layout for this fragment
         this.log.debug("onCreateView")
-        return inflater.inflate(R.layout.fragment_pdf_reader, container, false)
+        return inflater.inflate(R.layout.fragment_pdf_viewer, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

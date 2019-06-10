@@ -2,14 +2,10 @@ package org.nypl.pdf.android.pdfreader
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.AssetManager
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
-
-import kotlinx.android.synthetic.main.activity_pdf_reader.*
+import android.support.v7.app.AppCompatActivity
 import org.nypl.pdf.android.api.PdfFragmentListenerType
-import org.nypl.pdf.android.api.PdfReaderFragment
+import org.nypl.pdf.android.pdfviewer.PDFViewerFragment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
@@ -18,7 +14,6 @@ const val KEY_PAGE_INDEX = "page_index"
 
 class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
 
-    private lateinit var readerFragment: PdfReaderFragment
     private lateinit var documentTitle: String
     private var documentPageIndex: Int = 0
     private lateinit var assetPath: String
@@ -56,11 +51,12 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
             this.documentPageIndex = 0
         }
 
-        this.readerFragment = PdfReaderFragment.newInstance()
+        // Get the new instance of the reader you want to load here.
+        var readerFragment = PDFViewerFragment.newInstance()
 
         this.supportFragmentManager
             .beginTransaction()
-            .replace(R.id.pdf_reader_fragment_holder, this.readerFragment, "READER")
+            .replace(R.id.pdf_reader_fragment_holder, readerFragment, "READER")
             .commit()
     }
 

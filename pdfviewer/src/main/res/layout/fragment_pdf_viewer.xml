@@ -3,7 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".PdfReaderFragment" android:id="@+id/frameLayout">
+                tools:context=".PDFViewerFragment" android:id="@+id/frameLayout">
 
     <!-- Document HUD -->
     <RelativeLayout android:id="@+id/pdf_reader_hud_container" android:layout_width="match_parent"
