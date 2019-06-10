@@ -8,6 +8,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var googleButton: Button
     private lateinit var aliceButton: Button
+    private lateinit var circuitButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         this.aliceButton = findViewById(R.id.alice_button)
         this.aliceButton.setOnClickListener {
             PdfReaderActivity.startActivity(this, PdfReaderParameters("aliceInWonderland.pdf", 0))
+        }
+
+        this.circuitButton = findViewById(R.id.circuit_button)
+        this.circuitButton.setOnClickListener {
+            PdfReaderActivity.startActivity(this, PdfReaderParameters("dcCircuits.pdf", 0))
         }
     }
 }
