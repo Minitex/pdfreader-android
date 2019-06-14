@@ -4,19 +4,23 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import org.nypl.pdf.android.api.PdfFragmentListenerType
+import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
+import org.nypl.pdf.android.api.TableOfContentsItem
 import org.nypl.pdf.android.pdfviewer.PDFViewerFragment
+import org.nypl.pdf.android.pdfviewer.TableOfContentsFragment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 
 const val KEY_PAGE_INDEX = "page_index"
 
-class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
-
+class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfContentsFragmentListenerType {
     private lateinit var documentTitle: String
     private var documentPageIndex: Int = 0
     private lateinit var assetPath: String
+    private var tableOfContentsList: List<TableOfContentsItem> = emptyList()
 
     private val log: Logger = LoggerFactory.getLogger(PdfReaderActivity::class.java)
 
@@ -81,4 +85,56 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType {
     override fun onReaderPageChanged(pageIndex: Int) {
         this.documentPageIndex = pageIndex
     }
+
+    override fun onReaderLoadedTableOfContents(tableOfContentsList: List<TableOfContentsItem>) {
+        this.tableOfContentsList = tableOfContentsList
+    }
+
+    override fun onReaderWantsToCFragment() {
+
+        // Get the new instance of the reader you want to load here.
+        var readerFragment = TableOfContentsFragment.newInstance()
+
+        this.supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.pdf_reader_fragment_holder, readerFragment, "READER")
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onTableOfContentsWantsItems(): List<TableOfContentsItem> {
+        // return this.tableOfContentsList
+        var tableOfContentsTest = listOf(
+            TableOfContentsItem(
+                "Section 1", 1,
+                listOf(TableOfContentsItem("Subsection 1.1", 1, emptyList()))
+            ),
+
+            TableOfContentsItem(
+                "Section 2", 5,
+                listOf(
+                    TableOfContentsItem(
+                        "Subsection 2.1", 5,
+                        listOf(
+                            TableOfContentsItem("Subsection 2.1.1", 5, emptyList()),
+                            TableOfContentsItem
+                                ("Subsection 2.1.2", 7, emptyList())
+                        )
+                    ),
+                    TableOfContentsItem("Subsection 2.2", 17, emptyList())
+                )
+            )
+        )
+
+        return tableOfContentsTest
+    }
+
+    override fun onTableOfContentsWantsTitle(): String {
+        return getString(R.string.table_of_contents_title)
+    }
+
+    override fun onTOCItemSelected(pageSelected: Int) {
+        Toast.makeText(this, "Clicked page $pageSelected", Toast.LENGTH_SHORT).show()
+    }
+
 }

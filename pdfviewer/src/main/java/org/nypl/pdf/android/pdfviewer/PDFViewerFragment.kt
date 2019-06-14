@@ -56,6 +56,9 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
     override fun loadComplete(nbPages: Int) {
         // table of contents and other file metadata not available until after load is complete
         this.titleTextView.append(" " + this.pdfView.tableOfContents.size)
+
+        // TODO: Convert the TOC here.
+        this.listener.onReaderLoadedTableOfContents(emptyList())
     }
 
 
@@ -95,6 +98,7 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
         // TODO: Handle hud colors? this.tocImage.setColorFilter(Color.BLACK)
         this.tocImage.setOnClickListener {
             Toast.makeText(context, "Implement Table of Contents", Toast.LENGTH_SHORT).show()
+            this.listener.onReaderWantsToCFragment()
         }
 
         this.pdfView = view.findViewById(R.id.pdfView)

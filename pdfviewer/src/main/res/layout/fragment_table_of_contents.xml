@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".TableOfContentsFragment" android:id="@+id/frameLayout">
+
+    <!-- Document HUD -->
+    <RelativeLayout android:id="@+id/pdf_reader_hud_container" android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+        <TextView
+                android:id="@+id/toc_title_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="134dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@string/document_title_placeholder" tools:layout_conversion_absoluteHeight="731dp"
+                tools:layout_editor_absoluteY="0dp" tools:layout_editor_absoluteX="0dp"
+                tools:layout_conversion_absoluteWidth="411dp"/>
+
+    </RelativeLayout>
+
+    <!-- Table of Contents Viewer -->
+    <ListView
+            android:id="@+id/reader_toc_contents_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+</LinearLayout>
