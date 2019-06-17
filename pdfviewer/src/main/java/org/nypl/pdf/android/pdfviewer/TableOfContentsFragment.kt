@@ -4,10 +4,13 @@ import android.content.Context
 import android.database.DataSetObserver
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import kotlinx.android.synthetic.main.fragment_table_of_contents.*
 import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
 import org.nypl.pdf.android.api.TableOfContentsItem
 import org.slf4j.LoggerFactory
@@ -27,7 +30,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class TableOfContentsFragment : Fragment(), ListAdapter {
+class TableOfContentsFragment : Fragment() {
 
     companion object {
         /**
@@ -46,15 +49,11 @@ class TableOfContentsFragment : Fragment(), ListAdapter {
     private val log = LoggerFactory.getLogger(PDFViewerFragment::class.java)
 
     private var readerTOCLayout: View? = null
-    private var readerTOCListView: ListView? = null
 
     private var inflater: LayoutInflater? = null
-    private var adapter: ArrayAdapter<TableOfContentsItemWrapper>? = null
-
     private lateinit var listener: TableOfContentsFragmentListenerType
     private lateinit var titleTextView: TextView
     private var tableOfContentsList: List<TableOfContentsItem> = emptyList()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         this.log.debug("onCreate")
@@ -77,13 +76,8 @@ class TableOfContentsFragment : Fragment(), ListAdapter {
         // Inflate the layout for this fragment
         this.inflater = inflater
         readerTOCLayout = inflater.inflate(R.layout.fragment_table_of_contents, container, false)
-        readerTOCListView = readerTOCLayout?.findViewById(R.id.reader_toc_contents_list)
 
         tableOfContentsList = this.listener.onTableOfContentsWantsItems()
-        val elements = wrapTableOfContentsList(tableOfContentsList)
-
-        adapter = ArrayAdapter(context!!, 0, elements)
-        readerTOCListView?.adapter = this
 
         return readerTOCLayout
     }
@@ -93,7 +87,7 @@ class TableOfContentsFragment : Fragment(), ListAdapter {
         var indent = 0
 
         for (tocItem in tableOfContentsList) {
-           // wrappedList.add(TableOfContentsItemWrapper(TableOfContentsItem, indent))
+            // wrappedList.add(TableOfContentsItemWrapper(TableOfContentsItem, indent))
             flattenTableOfContents(wrappedList, indent, tocItem)
         }
 
@@ -109,8 +103,8 @@ class TableOfContentsFragment : Fragment(), ListAdapter {
         wrappedList.add(TableOfContentsItemWrapper(tocItem, indent))
 
         // Call children if needed
-        for(child in tocItem.children)
-        flattenTableOfContents(wrappedList, indent + 1, child)
+        for (child in tocItem.children)
+            flattenTableOfContents(wrappedList, indent + 1, child)
     }
 
 
@@ -121,85 +115,13 @@ class TableOfContentsFragment : Fragment(), ListAdapter {
         this.titleTextView = view.findViewById(R.id.toc_title_textView)
         this.titleTextView.text = this.listener.onTableOfContentsWantsTitle()
         // TODO: Handle hud colors? this.titleTextView.setTextColor(Color.BLUE)
-    }
 
-    /**
-     * List View Adapter
-     */
-    override fun areAllItemsEnabled(): Boolean {
-        return adapter!!.areAllItemsEnabled()
-    }
+        // RecyclerView Setup
+        val elements = wrapTableOfContentsList(tableOfContentsList)
 
-    override fun getCount(): Int {
-        return adapter!!.count
-    }
+        var recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
-    override fun getItem(position: Int): Any {
-        return adapter!!.getItem(position)
-    }
-
-    override fun getItemId(position: Int): Long {
-        return adapter!!.getItemId(position)
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return adapter!!.getItemViewType(position)
-    }
-
-    override fun getView(position: Int, reuse: View?, parent: ViewGroup?): View {
-
-        val itemView = if (reuse != null) {
-            reuse as ViewGroup
-        } else {
-            inflater?.inflate(R.layout.table_of_contents_element, parent, false) as ViewGroup
-        }
-
-        val titleTextView = itemView.findViewById<TextView>(R.id.reader_toc_element_title)
-        val pageNumberTextView = itemView.findViewById<TextView>(R.id.reader_toc_element_page_number)
-
-        // Populate Title and Page Number
-        val element = adapter?.getItem(position)
-        titleTextView.text = element?.title ?: "Title Marker"
-        pageNumberTextView.text = element?.pageNumber?.toString() ?: "Page Marker"
-
-        val p = RelativeLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-
-        // Set the left margin based on the desired indentation level.
-        val leftIndent = if (element != null) { element.indent * 64 } else { 0 }
-        p.setMargins(leftIndent, 0, 0, 0)
-        titleTextView.layoutParams = p
-
-        itemView.setOnClickListener { _ ->
-            this.listener.onTOCItemSelected(element?.pageNumber ?: 0)
-        }
-
-        return itemView
-    }
-
-    override fun getViewTypeCount(): Int {
-        return adapter!!.viewTypeCount
-    }
-
-    override fun hasStableIds(): Boolean {
-        return adapter!!.hasStableIds()
-    }
-
-    override fun isEmpty(): Boolean {
-        return adapter!!.isEmpty
-    }
-
-    override fun isEnabled(position: Int): Boolean {
-        return adapter!!.isEnabled(position)
-    }
-
-    override fun registerDataSetObserver(observer: DataSetObserver?) {
-        adapter!!.registerDataSetObserver(observer)
-    }
-
-    override fun unregisterDataSetObserver(observer: DataSetObserver?) {
-        adapter!!.unregisterDataSetObserver(observer)
+        recyclerView.adapter = TableOfContentsAdapter(elements, listener)
     }
 }
