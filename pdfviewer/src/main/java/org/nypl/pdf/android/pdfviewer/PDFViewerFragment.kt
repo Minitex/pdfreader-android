@@ -14,7 +14,9 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
 import com.github.barteksc.pdfviewer.util.FitPolicy
+import com.shockwave.pdfium.PdfDocument
 import org.nypl.pdf.android.api.PdfFragmentListenerType
+import org.nypl.pdf.android.api.TableOfContentsItem
 import org.slf4j.LoggerFactory
 
 class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListener {
@@ -57,8 +59,26 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
         // table of contents and other file metadata not available until after load is complete
         this.titleTextView.append(" " + this.pdfView.tableOfContents.size)
 
+        var convertedTableOfContents = convertToStandardTableOfContents(this.pdfView.tableOfContents)
+
         // TODO: Convert the TOC here.
-        this.listener.onReaderLoadedTableOfContents(emptyList())
+        this.listener.onReaderLoadedTableOfContents(convertedTableOfContents)
+    }
+
+    private fun convertToStandardTableOfContents(tableOfContents: List<PdfDocument.Bookmark>): List<TableOfContentsItem> {
+        var convertedTableOfContents: MutableList<TableOfContentsItem> = mutableListOf()
+
+        for (contentItem in tableOfContents) {
+            convertedTableOfContents.add(
+                TableOfContentsItem(
+                    contentItem.title,
+                    contentItem.pageIdx.toInt(),
+                    convertToStandardTableOfContents(contentItem.children)
+                )
+            )
+        }
+
+        return convertedTableOfContents.toList()
     }
 
 

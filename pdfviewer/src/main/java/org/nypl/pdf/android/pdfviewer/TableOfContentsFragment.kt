@@ -103,8 +103,9 @@ class TableOfContentsFragment : Fragment() {
         wrappedList.add(TableOfContentsItemWrapper(tocItem, indent))
 
         // Call children if needed
-        for (child in tocItem.children)
+        for (child in tocItem.children) {
             flattenTableOfContents(wrappedList, indent + 1, child)
+        }
     }
 
 

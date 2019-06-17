@@ -103,30 +103,7 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
     }
 
     override fun onTableOfContentsWantsItems(): List<TableOfContentsItem> {
-        // return this.tableOfContentsList
-        var tableOfContentsTest = listOf(
-            TableOfContentsItem(
-                "Section 1", 1,
-                listOf(TableOfContentsItem("Subsection 1.1", 1, emptyList()))
-            ),
-
-            TableOfContentsItem(
-                "Section 2", 5,
-                listOf(
-                    TableOfContentsItem(
-                        "Subsection 2.1", 5,
-                        listOf(
-                            TableOfContentsItem("Subsection 2.1.1", 5, emptyList()),
-                            TableOfContentsItem
-                                ("Subsection 2.1.2", 7, emptyList())
-                        )
-                    ),
-                    TableOfContentsItem("Subsection 2.2", 17, emptyList())
-                )
-            )
-        )
-
-        return tableOfContentsTest
+        return this.tableOfContentsList
     }
 
     override fun onTableOfContentsWantsTitle(): String {
