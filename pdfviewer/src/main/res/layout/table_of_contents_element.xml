@@ -11,6 +11,7 @@
             android:padding="16dp"
             android:text="Chapter 1"
             android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/reader_toc_element_page_number"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
@@ -20,5 +21,6 @@
             android:padding="16dp"
             android:text="Page 1"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 </RelativeLayout>
