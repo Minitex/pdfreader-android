@@ -21,7 +21,7 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [TableOfContentsFragment.OnFragmentInteractionListener] interface
+ * [TableOfContentsFragmentListenerType] interface
  * to handle interaction events.
  * Use the [TableOfContentsFragment.newInstance] factory method to
  * create an instance of this fragment.
@@ -66,7 +66,7 @@ class TableOfContentsFragment : Fragment(), ListAdapter {
         if (context is TableOfContentsFragmentListenerType) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException("$context must implement TableOfContentsFragmentListenerType")
         }
     }
 
