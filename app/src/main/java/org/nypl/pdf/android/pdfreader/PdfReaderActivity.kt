@@ -111,7 +111,7 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
     }
 
     override fun onTOCItemSelected(pageSelected: Int) {
-        Toast.makeText(this, "Clicked page $pageSelected", Toast.LENGTH_SHORT).show()
+        this.documentPageIndex = pageSelected
+        onBackPressed()
     }
-
 }
