@@ -30,6 +30,15 @@
 
     </RelativeLayout>
 
+    <!-- Empty Table of Contents View -->
+    <TextView
+        android:id="@+id/table_of_contents_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="No Data"
+        android:visibility="gone"/>
+
     <!-- Table of Contents Viewer -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

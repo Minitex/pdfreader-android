@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
 import org.nypl.pdf.android.api.PdfFragmentListenerType
 import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
 import org.nypl.pdf.android.api.TableOfContentsItem
@@ -113,5 +112,9 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
     override fun onTOCItemSelected(pageSelected: Int) {
         this.documentPageIndex = pageSelected
         onBackPressed()
+    }
+
+    override fun onTableOfContentsWantsEmptyDataText(): String {
+        return getString(R.string.table_of_contents_empty_message)
     }
 }

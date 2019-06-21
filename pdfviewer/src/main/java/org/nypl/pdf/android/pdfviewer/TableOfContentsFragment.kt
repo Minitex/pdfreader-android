@@ -121,8 +121,19 @@ class TableOfContentsFragment : Fragment() {
         val elements = wrapTableOfContentsList(tableOfContentsList)
 
         var recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        var noDataView = view.findViewById<TextView>(R.id.table_of_contents_no_data)
 
-        recyclerView.adapter = TableOfContentsAdapter(elements, listener)
+        if (elements.isNotEmpty()) {
+            noDataView.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = TableOfContentsAdapter(elements, listener)
+        } else {
+            recyclerView.visibility = View.GONE
+            noDataView.visibility = View.VISIBLE
+
+            noDataView.text = this.listener.onTableOfContentsWantsEmptyDataText()
+        }
     }
 }
