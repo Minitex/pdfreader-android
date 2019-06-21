@@ -5,7 +5,7 @@ package org.nypl.pdf.android.api
  */
 interface TableOfContentsFragmentListenerType {
 
-    fun onTableOfContentsWantsItems(): List<TableOfContentsItem>
+    fun onTableOfContentsWantsItems(): ArrayList<TableOfContentsItem>
 
     fun onTableOfContentsWantsTitle(): String
 

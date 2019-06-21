@@ -35,5 +35,5 @@ interface PdfFragmentListenerType {
     /**
      * The reader published that is has a Table of Contents list available
      */
-    fun onReaderLoadedTableOfContents(tableOfContentsList: List<TableOfContentsItem>)
+    fun onReaderLoadedTableOfContents(tableOfContentsList: ArrayList<TableOfContentsItem>)
 }

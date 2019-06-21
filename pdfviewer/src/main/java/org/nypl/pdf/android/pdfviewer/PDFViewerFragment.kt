@@ -128,7 +128,7 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
             .load()
     }
 
-    private fun convertToStandardTableOfContents(tableOfContents: List<PdfDocument.Bookmark>): List<TableOfContentsItem> {
+    private fun convertToStandardTableOfContents(tableOfContents: List<PdfDocument.Bookmark>): ArrayList<TableOfContentsItem> {
         var convertedTableOfContents: MutableList<TableOfContentsItem> = mutableListOf()
 
         for (contentItem in tableOfContents) {
@@ -141,6 +141,6 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
             )
         }
 
-        return convertedTableOfContents.toList()
+        return ArrayList(convertedTableOfContents.toList())
     }
 }
