@@ -14,7 +14,9 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
 import com.github.barteksc.pdfviewer.util.FitPolicy
+import com.shockwave.pdfium.PdfDocument
 import org.nypl.pdf.android.api.PdfFragmentListenerType
+import org.nypl.pdf.android.api.TableOfContentsItem
 import org.slf4j.LoggerFactory
 
 class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListener {
@@ -55,9 +57,9 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
      */
     override fun loadComplete(nbPages: Int) {
         // table of contents and other file metadata not available until after load is complete
-        this.titleTextView.append(" " + this.pdfView.tableOfContents.size)
+        var convertedTableOfContents = convertToStandardTableOfContents(this.pdfView.tableOfContents)
+        this.listener.onReaderLoadedTableOfContents(convertedTableOfContents)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         this.log.debug("onCreate")
@@ -72,6 +74,13 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
         } else {
             throw RuntimeException(context.toString() + " must implement PdfFragmentListnerType")
         }
+    }
+
+    override fun onResume() {
+        this.log.debug("onResume")
+        super.onResume()
+
+        pdfView.jumpTo(listener.onReaderWantsCurrentPage())
     }
 
     override fun onCreateView(
@@ -94,7 +103,7 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
         this.tocImage = view.findViewById(R.id.reader_toc)
         // TODO: Handle hud colors? this.tocImage.setColorFilter(Color.BLACK)
         this.tocImage.setOnClickListener {
-            Toast.makeText(context, "Implement Table of Contents", Toast.LENGTH_SHORT).show()
+            this.listener.onReaderWantsToCFragment()
         }
 
         this.pdfView = view.findViewById(R.id.pdfView)
@@ -119,8 +128,19 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
             .load()
     }
 
-    override fun onDetach() {
-        this.log.debug("onDetach")
-        super.onDetach()
+    private fun convertToStandardTableOfContents(tableOfContents: List<PdfDocument.Bookmark>): List<TableOfContentsItem> {
+        var convertedTableOfContents: MutableList<TableOfContentsItem> = mutableListOf()
+
+        for (contentItem in tableOfContents) {
+            convertedTableOfContents.add(
+                TableOfContentsItem(
+                    contentItem.title,
+                    contentItem.pageIdx.toInt(),
+                    convertToStandardTableOfContents(contentItem.children)
+                )
+            )
+        }
+
+        return convertedTableOfContents.toList()
     }
 }
