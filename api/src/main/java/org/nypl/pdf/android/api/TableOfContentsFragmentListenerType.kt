@@ -10,4 +10,6 @@ interface TableOfContentsFragmentListenerType {
     fun onTableOfContentsWantsTitle(): String
 
     fun onTOCItemSelected(pageSelected: Int)
+
+    fun onTableOfContentsWantsEmptyDataText(): String
 }
