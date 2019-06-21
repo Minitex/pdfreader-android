@@ -51,7 +51,7 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
 
         if (savedInstanceState != null) {
             this.documentPageIndex = savedInstanceState.getInt(KEY_PAGE_INDEX, 0)
-            this.tableOfContentsList = savedInstanceState.getParcelableArrayList(TABLE_OF_CONTENTS)
+            this.tableOfContentsList = savedInstanceState.getParcelableArrayList(TABLE_OF_CONTENTS) ?: arrayListOf()
         } else {
             this.documentPageIndex = 0
 
