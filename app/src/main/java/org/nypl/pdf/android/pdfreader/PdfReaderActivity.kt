@@ -14,12 +14,13 @@ import org.slf4j.LoggerFactory
 import java.io.InputStream
 
 const val KEY_PAGE_INDEX = "page_index"
+const val TABLE_OF_CONTENTS = "table_of_contents"
 
 class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfContentsFragmentListenerType {
     private lateinit var documentTitle: String
     private var documentPageIndex: Int = 0
     private lateinit var assetPath: String
-    private var tableOfContentsList: List<TableOfContentsItem> = emptyList()
+    private var tableOfContentsList: ArrayList<TableOfContentsItem> = arrayListOf()
 
     private val log: Logger = LoggerFactory.getLogger(PdfReaderActivity::class.java)
 
@@ -50,21 +51,23 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
 
         if (savedInstanceState != null) {
             this.documentPageIndex = savedInstanceState.getInt(KEY_PAGE_INDEX, 0)
+            this.tableOfContentsList = savedInstanceState.getParcelableArrayList(TABLE_OF_CONTENTS)
         } else {
             this.documentPageIndex = 0
+
+            // Get the new instance of the reader you want to load here.
+            var readerFragment = PDFViewerFragment.newInstance()
+
+            this.supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.pdf_reader_fragment_holder, readerFragment, "READER")
+                .commit()
         }
-
-        // Get the new instance of the reader you want to load here.
-        var readerFragment = PDFViewerFragment.newInstance()
-
-        this.supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.pdf_reader_fragment_holder, readerFragment, "READER")
-            .commit()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(KEY_PAGE_INDEX, documentPageIndex)
+        outState.putParcelableArrayList(TABLE_OF_CONTENTS, tableOfContentsList)
         super.onSaveInstanceState(outState)
     }
 
@@ -85,12 +88,11 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
         this.documentPageIndex = pageIndex
     }
 
-    override fun onReaderLoadedTableOfContents(tableOfContentsList: List<TableOfContentsItem>) {
+    override fun onReaderLoadedTableOfContents(tableOfContentsList: ArrayList<TableOfContentsItem>) {
         this.tableOfContentsList = tableOfContentsList
     }
 
     override fun onReaderWantsToCFragment() {
-
         // Get the new instance of the reader you want to load here.
         var readerFragment = TableOfContentsFragment.newInstance()
 
@@ -101,7 +103,7 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
             .commit()
     }
 
-    override fun onTableOfContentsWantsItems(): List<TableOfContentsItem> {
+    override fun onTableOfContentsWantsItems(): ArrayList<TableOfContentsItem> {
         return this.tableOfContentsList
     }
 

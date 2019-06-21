@@ -1,6 +1,10 @@
 package org.nypl.pdf.android.api
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class TableOfContentsItem(
-    val title: String?,
+    val title: String? = null,
     val pageNumber: Int,
-    val children: List<TableOfContentsItem>)
+    val children: ArrayList<TableOfContentsItem>) : Parcelable
