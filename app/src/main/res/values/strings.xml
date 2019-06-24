@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">PdfReader</string>
-    <string name="title_activity_pdfreader">PDFReaderActivity</string>
     <string name="title_activity_pdf_reader">PdfReaderActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Table of Contents -->
+    <string name="table_of_contents_title">Table of Contents</string>
+    <string name="table_of_contents_empty_message">No Table of Contents available for this work</string>
+    <string name="document_name_google_io">Google I/O</string>
+    <string name="document_name_alice_in_wonderland">Alice in Wonderland</string>
+    <string name="document_name_dc_circuits">DC Circuits</string>
 </resources>

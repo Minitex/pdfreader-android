@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">API</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="placeholder_table_of_contents">Table of Contents Placeholder</string>
+    <string name="placeholder_table_of_contents_no_data">No Table of Contents for Document</string>
+    <string name="placeholder_table_of_contents_element_title">Chapter 1</string>
+    <string name="placeholder_table_of_contents_element_page">Page 1</string>
+    <string name="placeholder_reader_title">Reader Title Placeholder</string>
+    <string name="pdf_reader_accessibility_toc">Show table of contents</string>
 </resources>
