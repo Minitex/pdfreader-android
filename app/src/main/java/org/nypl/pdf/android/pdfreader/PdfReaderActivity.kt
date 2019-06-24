@@ -108,7 +108,7 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
     override fun onReaderWantsTableOfContentsFragment() {
         log.debug("onReaderWantsTableOfContentsFragment")
 
-        // Get the new instance of the reader you want to load here.
+        // Get the new instance of the [TableOfContentsFragment] you want to load here.
         val readerFragment = TableOfContentsFragment.newInstance()
 
         this.supportFragmentManager
@@ -118,7 +118,6 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
             .commit()
     }
     //endregion
-
 
     //region [TableOfContentsFragmentListenerType]
     override fun onTableOfContentsWantsItems(): ArrayList<TableOfContentsItem> {
@@ -138,6 +137,8 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
 
     override fun onTableOfContentsItemSelected(pageSelected: Int) {
         log.debug("onTableOfContentsItemSelected. pageSelected: $pageSelected")
+
+        // the reader fragment should be on the backstack and will ask for the page index when `onResume` is called
         this.documentPageIndex = pageSelected
         onBackPressed()
     }
