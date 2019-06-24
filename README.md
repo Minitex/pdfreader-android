@@ -11,9 +11,9 @@ The library can be used by an activity that implements the `api`'s `PdfFragmentL
 
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
-        .
-        .
-        .
+        
+        // Your other logic here
+        
         this.readerFragment = PdfReaderFragment.newInstance()
 
         this.supportFragmentManager
@@ -25,9 +25,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 Currently the library only accepts an InputStream, but this can be extended in the future.
 ```kotlin
-    override fun onReaderWantsInputStream(): InputStream {       
-        var fileStream = assets.open(this.assetPath)
-        return fileStream
+    override fun onReaderWantsInputStream(): InputStream {
+        return assets.open(this.assetPath)
     }
 
     override fun onReaderWantsTitle(): String {

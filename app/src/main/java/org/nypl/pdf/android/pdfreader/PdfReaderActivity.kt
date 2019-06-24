@@ -7,26 +7,23 @@ import android.support.v7.app.AppCompatActivity
 import org.nypl.pdf.android.api.PdfFragmentListenerType
 import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
 import org.nypl.pdf.android.api.TableOfContentsItem
-import org.nypl.pdf.android.pdfviewer.PDFViewerFragment
+import org.nypl.pdf.android.pdfviewer.PdfViewerFragment
 import org.nypl.pdf.android.pdfviewer.TableOfContentsFragment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 
-const val KEY_PAGE_INDEX = "page_index"
-const val TABLE_OF_CONTENTS = "table_of_contents"
-
 class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfContentsFragmentListenerType {
-    private lateinit var documentTitle: String
-    private var documentPageIndex: Int = 0
-    private lateinit var assetPath: String
-    private var tableOfContentsList: ArrayList<TableOfContentsItem> = arrayListOf()
-
-    private val log: Logger = LoggerFactory.getLogger(PdfReaderActivity::class.java)
 
     companion object {
-        private const val PARAMS_ID = "org.nypl.pdf.android.pefreader.PdfReaderActivity.params"
+        const val KEY_PAGE_INDEX = "page_index"
+        const val TABLE_OF_CONTENTS = "table_of_contents"
 
+        private const val PARAMS_ID = "org.nypl.pdf.android.pdfreader.PdfReaderActivity.params"
+
+        /**
+         * Factory method to start a [PdfReaderActivity]
+         */
         fun startActivity(
             from: Activity,
             parameters: PdfReaderParameters
@@ -40,14 +37,24 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
         }
     }
 
+    private val log: Logger = LoggerFactory.getLogger(PdfReaderActivity::class.java)
+
+    // vars assigned in onCreate and passed with the intent
+    private lateinit var documentTitle: String
+    private lateinit var assetPath: String
+
+    // vars for the activity to pass back to the reader or table of contents fragment
+    private var documentPageIndex: Int = 0
+    private var tableOfContentsList: ArrayList<TableOfContentsItem> = arrayListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        log.debug("onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdf_reader)
 
         val intentParams = intent?.getSerializableExtra(PARAMS_ID) as PdfReaderParameters
-
-        this.documentTitle = intentParams.assestPath
-        this.assetPath = intentParams.assestPath
+        this.documentTitle = intentParams.assetPath
+        this.assetPath = intentParams.assetPath
 
         if (savedInstanceState != null) {
             this.documentPageIndex = savedInstanceState.getInt(KEY_PAGE_INDEX, 0)
@@ -56,7 +63,7 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
             this.documentPageIndex = 0
 
             // Get the new instance of the reader you want to load here.
-            var readerFragment = PDFViewerFragment.newInstance()
+            val readerFragment = PdfViewerFragment.newInstance()
 
             this.supportFragmentManager
                 .beginTransaction()
@@ -66,35 +73,43 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        log.debug("onSaveInstanceState")
         outState.putInt(KEY_PAGE_INDEX, documentPageIndex)
         outState.putParcelableArrayList(TABLE_OF_CONTENTS, tableOfContentsList)
         super.onSaveInstanceState(outState)
     }
 
+    //region [PdfFragmentListenerType]
     override fun onReaderWantsInputStream(): InputStream {
-        var fileStream = assets.open(this.assetPath)
-        return fileStream
+        log.debug("onReaderWantsInputStream")
+        return assets.open(assetPath)
     }
 
     override fun onReaderWantsTitle(): String {
+        log.debug("onReaderWantsTitle")
         return this.documentTitle
     }
 
     override fun onReaderWantsCurrentPage(): Int {
+        log.debug("onReaderWantsCurrentPage")
         return this.documentPageIndex
     }
 
     override fun onReaderPageChanged(pageIndex: Int) {
+        log.debug("onReaderPageChanged")
         this.documentPageIndex = pageIndex
     }
 
     override fun onReaderLoadedTableOfContents(tableOfContentsList: ArrayList<TableOfContentsItem>) {
+        log.debug("onReaderLoadedTableOfContents. tableOfContentsList: $tableOfContentsList")
         this.tableOfContentsList = tableOfContentsList
     }
 
-    override fun onReaderWantsToCFragment() {
+    override fun onReaderWantsTableOfContentsFragment() {
+        log.debug("onReaderWantsTableOfContentsFragment")
+
         // Get the new instance of the reader you want to load here.
-        var readerFragment = TableOfContentsFragment.newInstance()
+        val readerFragment = TableOfContentsFragment.newInstance()
 
         this.supportFragmentManager
             .beginTransaction()
@@ -102,21 +117,29 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
             .addToBackStack(null)
             .commit()
     }
+    //endregion
 
+
+    //region [TableOfContentsFragmentListenerType]
     override fun onTableOfContentsWantsItems(): ArrayList<TableOfContentsItem> {
+        log.debug("onTableOfContentsWantsItems")
         return this.tableOfContentsList
     }
 
     override fun onTableOfContentsWantsTitle(): String {
+        log.debug("onTableOfContentsWantsTitle")
         return getString(R.string.table_of_contents_title)
     }
 
-    override fun onTOCItemSelected(pageSelected: Int) {
+    override fun onTableOfContentsWantsEmptyDataText(): String {
+        log.debug("onTableOfContentsWantsEmptyDataText")
+        return getString(R.string.table_of_contents_empty_message)
+    }
+
+    override fun onTableOfContentsItemSelected(pageSelected: Int) {
+        log.debug("onTableOfContentsItemSelected. pageSelected: $pageSelected")
         this.documentPageIndex = pageSelected
         onBackPressed()
     }
-
-    override fun onTableOfContentsWantsEmptyDataText(): String {
-        return getString(R.string.table_of_contents_empty_message)
-    }
+    //endregion
 }

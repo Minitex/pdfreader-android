@@ -2,7 +2,6 @@ package org.nypl.pdf.android.pdfviewer
 
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +9,13 @@ import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.table_of_contents_element.view.*
 import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
 
-
 class TableOfContentsAdapter(
     private val contents: List<TableOfContentsItemWrapper>,
     private val listener: TableOfContentsFragmentListenerType
 ) :
     RecyclerView.Adapter<TableOfContentsAdapter.ContentsHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TableOfContentsAdapter.ContentsHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentsHolder {
         val inflatedView = parent.inflate(R.layout.table_of_contents_element, false)
         return ContentsHolder(inflatedView, listener)
     }
@@ -26,16 +24,15 @@ class TableOfContentsAdapter(
         return contents.size
     }
 
-    override fun onBindViewHolder(holder: TableOfContentsAdapter.ContentsHolder, position: Int) {
+    override fun onBindViewHolder(holder: ContentsHolder, position: Int) {
         val content = contents[position]
         holder.bindContents(content)
     }
 
-    class ContentsHolder(v: View, listener: TableOfContentsFragmentListenerType) : RecyclerView.ViewHolder(v),
+    class ContentsHolder(v: View, private var listener: TableOfContentsFragmentListenerType) : RecyclerView.ViewHolder(v),
         View.OnClickListener {
         private var view: View = v
         private var content: TableOfContentsItemWrapper? = null
-        private var listener: TableOfContentsFragmentListenerType = listener
 
         init {
             v.setOnClickListener(this)
@@ -43,12 +40,8 @@ class TableOfContentsAdapter(
 
         override fun onClick(v: View) {
             if (content != null) {
-                listener.onTOCItemSelected(content!!.pageNumber)
+                listener.onTableOfContentsItemSelected(content!!.pageNumber)
             }
-        }
-
-        companion object {
-            private val CONTENTS_KEY = "CONTENTS"
         }
 
         fun bindContents(content: TableOfContentsItemWrapper) {
