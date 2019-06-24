@@ -23,17 +23,17 @@ interface PdfFragmentListenerType {
     fun onReaderWantsCurrentPage(): Int
 
     /**
-     * The reader published a Page Changed event.
+     * The reader published a Page Changed event for [pageIndex].
      */
     fun onReaderPageChanged(pageIndex: Int)
 
     /**
      * The reader wants the activity to display a Table of Contents Fragment.
      */
-    fun onReaderWantsToCFragment()
+    fun onReaderWantsTableOfContentsFragment()
 
     /**
-     * The reader published that is has a Table of Contents list available
+     * The reader published that is has a Table of Contents list [tableOfContentsList] available
      */
     fun onReaderLoadedTableOfContents(tableOfContentsList: ArrayList<TableOfContentsItem>)
 }

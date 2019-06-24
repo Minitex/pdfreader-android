@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.github.barteksc.pdfviewer.PDFView
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
@@ -18,48 +17,30 @@ import com.shockwave.pdfium.PdfDocument
 import org.nypl.pdf.android.api.PdfFragmentListenerType
 import org.nypl.pdf.android.api.TableOfContentsItem
 import org.slf4j.LoggerFactory
+import java.io.InputStream
 
-class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListener {
-
+class PdfViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListener {
 
     companion object {
         /**
          * Factory method to create new instance of
          * this fragment using provided params.
          *
-         * @return A new instance of fragment PDFViewerFragment.
+         * @return A new instance of fragment [PdfViewerFragment].
          */
         @JvmStatic
-        fun newInstance(): PDFViewerFragment {
-            // TODO: Could do any initialization we wanted here and pass in params if needed.
-            return PDFViewerFragment()
+        fun newInstance(): PdfViewerFragment {
+            // TODO: Would it be better to initialize here rather than calling back via interface for first assignments?
+            return PdfViewerFragment()
         }
     }
 
-    private val log = LoggerFactory.getLogger(PDFViewerFragment::class.java)
+    private val log = LoggerFactory.getLogger(PdfViewerFragment::class.java)
 
     private lateinit var listener: PdfFragmentListenerType
     private lateinit var titleTextView: TextView
     private lateinit var pdfView: PDFView
     private lateinit var tocImage: ImageView
-
-
-    /**
-     * Fires when viewer has its page changed by the user
-     * (or presumably code as well).
-     */
-    override fun onPageChanged(page: Int, pageCount: Int) {
-        this.listener.onReaderPageChanged(page)
-    }
-
-    /**
-     * Fires when viewer has completed loading the document.
-     */
-    override fun loadComplete(nbPages: Int) {
-        // table of contents and other file metadata not available until after load is complete
-        var convertedTableOfContents = convertToStandardTableOfContents(this.pdfView.tableOfContents)
-        this.listener.onReaderLoadedTableOfContents(convertedTableOfContents)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         this.log.debug("onCreate")
@@ -72,7 +53,7 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
         if (context is PdfFragmentListenerType) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement PdfFragmentListnerType")
+            throw RuntimeException("$context must implement PdfFragmentListenerType")
         }
     }
 
@@ -103,15 +84,38 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
         this.tocImage = view.findViewById(R.id.reader_toc)
         // TODO: Handle hud colors? this.tocImage.setColorFilter(Color.BLACK)
         this.tocImage.setOnClickListener {
-            this.listener.onReaderWantsToCFragment()
+            this.listener.onReaderWantsTableOfContentsFragment()
         }
 
         this.pdfView = view.findViewById(R.id.pdfView)
         displayFromInputStream()
     }
 
+    /**
+     * Fires when viewer has its page changed by the user
+     * (or presumably code as well).
+     */
+    override fun onPageChanged(page: Int, pageCount: Int) {
+        log.debug("onPageChanged. page: $page pageCount: $pageCount")
+        this.listener.onReaderPageChanged(page)
+    }
+
+    /**
+     * Fires when viewer has completed loading the document.
+     */
+    override fun loadComplete(pageCount: Int) {
+        log.debug("PdfViewer loadComplete. pageCount: $pageCount")
+
+        // table of contents and other file metadata not available until after load is complete
+        val convertedTableOfContents = convertToStandardTableOfContents(this.pdfView.tableOfContents)
+        this.listener.onReaderLoadedTableOfContents(convertedTableOfContents)
+    }
+
+    /**
+     * Requests the [InputStream] from the host activity and loads it into the [PDFView].
+     */
     private fun displayFromInputStream() {
-        var inputStream = this.listener.onReaderWantsInputStream()
+        val inputStream = this.listener.onReaderWantsInputStream()
 
         pdfView.fromStream(inputStream)
             .defaultPage(this.listener.onReaderWantsCurrentPage())
@@ -128,8 +132,11 @@ class PDFViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
             .load()
     }
 
+    /**
+     * Converts list of [PdfDocument.Bookmark] to [ArrayList] of [TableOfContentsItem] defined by the api package.
+     */
     private fun convertToStandardTableOfContents(tableOfContents: List<PdfDocument.Bookmark>): ArrayList<TableOfContentsItem> {
-        var convertedTableOfContents: MutableList<TableOfContentsItem> = mutableListOf()
+        val convertedTableOfContents: MutableList<TableOfContentsItem> = mutableListOf()
 
         for (contentItem in tableOfContents) {
             convertedTableOfContents.add(
