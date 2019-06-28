@@ -8,8 +8,8 @@ dependencies {
     // logger
     implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
 
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:support-v4:28.0.0'
+    implementation "com.android.support:appcompat-v7:${dependency_support_v7_version}"
+    implementation "com.android.support:support-v4:${dependency_support_v4_version}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
@@ -56,9 +56,14 @@ publishing {
                 d0.appendNode('version', "${dependency_slf4j_version}")
 
                 final d1 = dependencies.appendNode('dependency')
-                d1.appendNode('groupId', 'org.jetbrains.kotlin')
-                d1.appendNode('artifactId', 'kotlin-stdlib-jdk7')
-                d1.appendNode('version', "$kotlin_version")
+                d1.appendNode('groupId', 'com.android.support')
+                d1.appendNode('artifactId', 'support-v4')
+                d1.appendNode('version', "${dependency_support_v4_version}")
+
+                final d2 = dependencies.appendNode('dependency')
+                d2.appendNode('groupId', 'org.jetbrains.kotlin')
+                d2.appendNode('artifactId', 'kotlin-stdlib-jdk7')
+                d2.appendNode('version', "$kotlin_version")
             }
         }
     }

@@ -16,12 +16,16 @@ buildscript {
 }
 
 ext {
+    dependency_pdfviewer_version = "3.1.0-beta.1"
+    dependency_recyclerview_version = "28.0.0"
     dependency_slf4j_version = "1.7.25"
+    dependency_support_v4_version = "28.0.0"
+    dependency_support_v7_version = "28.0.0"
 }
 
 allprojects {
     group = 'org.nypl.pdf'
-    version = '0.0.1'
+    version = '0.0.3'
 
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
