@@ -2,17 +2,23 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // logger
+    implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+
+    implementation "com.android.support:appcompat-v7:${dependency_support_v7_version}"
+    implementation "com.android.support:support-v4:${dependency_support_v4_version}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
 android {
     compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "0.1"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -27,16 +33,46 @@ androidExtensions {
     experimental = true
 }
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    // logger
-    implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
-
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:support-v4:28.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "sources"
 }
+
+publishing {
+    publications {
+        debugAAR(MavenPublication) {
+            groupId group
+            artifactId 'api'
+            version version
+            artifact(sourceJar)
+            artifact("$buildDir/outputs/aar/api-debug.aar")
+
+            pom.withXml {
+                def dependencies = asNode().appendNode('dependencies')
+
+                final d0 = dependencies.appendNode('dependency')
+                d0.appendNode('groupId', 'org.slf4j')
+                d0.appendNode('artifactId', 'slf4j-api')
+                d0.appendNode('version', "${dependency_slf4j_version}")
+
+                final d1 = dependencies.appendNode('dependency')
+                d1.appendNode('groupId', 'com.android.support')
+                d1.appendNode('artifactId', 'support-v4')
+                d1.appendNode('version', "${dependency_support_v4_version}")
+
+                final d2 = dependencies.appendNode('dependency')
+                d2.appendNode('groupId', 'org.jetbrains.kotlin')
+                d2.appendNode('artifactId', 'kotlin-stdlib-jdk7')
+                d2.appendNode('version', "$kotlin_version")
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url "$buildDir/repo"
+        }
+    }
+}
+
+
