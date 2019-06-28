@@ -20,12 +20,36 @@ ext {
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
+    group = 'org.nypl.pdf'
+    version = '0.0.1'
+
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+subprojects {
+    repositories {
+
+        mavenCentral()
+        mavenLocal()
+        maven {
+            url "https://maven.google.com"
+        }
+
+        jcenter()
+        google()
+    }
+
+    publishing {
+        repositories {
+            maven {
+                url "https://nexus.librarysimplified.org:8443/nexus/content/repositories/releases-no-drm/"
+
+                credentials {
+                    username findProperty("org.librarysimplified.nexus.username")
+                    password findProperty("org.librarysimplified.nexus.password")
+                }
+            }
+        }
+    }
 }
