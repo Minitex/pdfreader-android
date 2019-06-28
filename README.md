@@ -118,3 +118,6 @@ dependencies {
     api 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
 }
 ```
+
+
+This work is funded through IMLS Grant # LG-70-16-0010.
