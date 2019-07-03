@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -11,8 +12,8 @@
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@id/reader_toc_element_page_number"
         android:padding="16dp"
-        android:text="@string/placeholder_table_of_contents_element_title"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="@string/placeholder_table_of_contents_element_title" />
 
     <TextView
         android:id="@+id/reader_toc_element_page_number"
@@ -21,6 +22,6 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:padding="16dp"
-        android:text="@string/placeholder_table_of_contents_element_page"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="@string/placeholder_table_of_contents_element_page" />
 </RelativeLayout>

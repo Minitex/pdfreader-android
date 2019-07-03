@@ -23,11 +23,7 @@
             android:layout_toStartOf="@id/reader_toc"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/placeholder_reader_title"
-            tools:layout_conversion_absoluteHeight="731dp"
-            tools:layout_conversion_absoluteWidth="411dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:text="@string/placeholder_reader_title" />
 
         <ImageView
             android:id="@+id/reader_toc"
