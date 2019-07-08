@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
+/**
+ * Main Activity of the Sample app for the PdfReader library.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var googleButton: Button

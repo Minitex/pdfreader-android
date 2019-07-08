@@ -17,15 +17,12 @@
             android:id="@+id/toc_title_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="@dimen/pdfviewer_hud_marginStart"
+            android:layout_marginEnd="@dimen/pdfviewer_hud_marginEnd"
+            android:layout_marginTop="@dimen/pdfviewer_hud_marginTop"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/placeholder_table_of_contents"
-            tools:layout_conversion_absoluteHeight="731dp"
-            tools:layout_conversion_absoluteWidth="411dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:text="@string/placeholder_table_of_contents" />
 
     </RelativeLayout>
 
@@ -36,7 +33,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/placeholder_table_of_contents_no_data"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <!-- Table of Contents Viewer -->
     <android.support.v7.widget.RecyclerView

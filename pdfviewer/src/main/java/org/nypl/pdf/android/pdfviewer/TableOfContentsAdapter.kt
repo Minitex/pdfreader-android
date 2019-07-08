@@ -9,11 +9,22 @@ import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.table_of_contents_element.view.*
 import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
 
+/**
+ * [RecyclerView.Adapter] subclass for holding [TableOfContentsItemWrapper]
+ * elements.
+ *
+ * @property contents The list of [TableOfContentsItemWrapper] elements to display.
+ * @property listener The listener for handling click events in the RecyclerView.
+ */
 class TableOfContentsAdapter(
     private val contents: List<TableOfContentsItemWrapper>,
     private val listener: TableOfContentsFragmentListenerType
 ) :
     RecyclerView.Adapter<TableOfContentsAdapter.ContentsHolder>() {
+
+    companion object {
+        const val INDENT_PIXELS = 64
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentsHolder {
         val inflatedView = parent.inflate(R.layout.table_of_contents_element, false)
@@ -29,7 +40,8 @@ class TableOfContentsAdapter(
         holder.bindContents(content)
     }
 
-    class ContentsHolder(v: View, private var listener: TableOfContentsFragmentListenerType) : RecyclerView.ViewHolder(v),
+    class ContentsHolder(v: View, private var listener: TableOfContentsFragmentListenerType) :
+        RecyclerView.ViewHolder(v),
         View.OnClickListener {
         private var view: View = v
         private var content: TableOfContentsItemWrapper? = null
@@ -54,7 +66,7 @@ class TableOfContentsAdapter(
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
 
-            val leftIndent = content.indent * 64
+            val leftIndent = content.indent * INDENT_PIXELS
 
             params.setMargins(leftIndent, 0, 0, 0)
 
