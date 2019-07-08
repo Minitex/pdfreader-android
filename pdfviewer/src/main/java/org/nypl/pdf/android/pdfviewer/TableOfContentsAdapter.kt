@@ -1,6 +1,5 @@
 package org.nypl.pdf.android.pdfviewer
 
-import android.content.res.Resources
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
