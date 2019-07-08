@@ -17,8 +17,9 @@
             android:id="@+id/toc_title_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="@dimen/pdfviewer_hud_marginStart"
+            android:layout_marginEnd="@dimen/pdfviewer_hud_marginEnd"
+            android:layout_marginTop="@dimen/pdfviewer_hud_marginTop"
             android:ellipsize="end"
             android:maxLines="1"
             tools:text="@string/placeholder_table_of_contents" />
