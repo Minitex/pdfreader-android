@@ -13,6 +13,11 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 
+/**
+ * Activity responsible for tracking metadata for a PDF and passing it to
+ * Fragments that are rendering the PDF when they ask for it via
+ * [PdfFragmentListenerType] and [TableOfContentsFragmentListenerType] events.
+ */
 class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfContentsFragmentListenerType {
 
     companion object {

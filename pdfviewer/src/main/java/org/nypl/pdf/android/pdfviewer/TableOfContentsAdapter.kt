@@ -9,6 +9,13 @@ import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.table_of_contents_element.view.*
 import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
 
+/**
+ * [RecyclerView.Adapter] subclass for holding [TableOfContentsItemWrapper]
+ * elements.
+ *
+ * @property contents The list of [TableOfContentsItemWrapper] elements to display.
+ * @property listener The listener for handling click events in the RecyclerView.
+ */
 class TableOfContentsAdapter(
     private val contents: List<TableOfContentsItemWrapper>,
     private val listener: TableOfContentsFragmentListenerType
