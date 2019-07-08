@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pdfviewer_table_of_contents_button_layout_width">40dp</dimen>
+    <dimen name="pdfviewer_table_of_contents_button_layout_height">30dp</dimen>
+    <dimen name="pdfviewer_table_of_contents_button_marginStart">8dp</dimen>
+    <dimen name="pdfviewer_table_of_contents_button_marginEnd">8dp</dimen>
+    <dimen name="table_of_contents_element_padding">16dp</dimen>
+    <dimen name="pdfviewer_hud_marginStart">8dp</dimen>
+    <dimen name="pdfviewer_hud_marginEnd">8dp</dimen>
+    <dimen name="pdfviewer_hud_marginTop">4dp</dimen>
+</resources>

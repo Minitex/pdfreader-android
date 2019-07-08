@@ -1,5 +1,6 @@
 package org.nypl.pdf.android.pdfviewer
 
+import android.content.res.Resources
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -22,6 +23,10 @@ class TableOfContentsAdapter(
 ) :
     RecyclerView.Adapter<TableOfContentsAdapter.ContentsHolder>() {
 
+    companion object {
+        const val INDENT_PIXELS = 64
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentsHolder {
         val inflatedView = parent.inflate(R.layout.table_of_contents_element, false)
         return ContentsHolder(inflatedView, listener)
@@ -36,7 +41,8 @@ class TableOfContentsAdapter(
         holder.bindContents(content)
     }
 
-    class ContentsHolder(v: View, private var listener: TableOfContentsFragmentListenerType) : RecyclerView.ViewHolder(v),
+    class ContentsHolder(v: View, private var listener: TableOfContentsFragmentListenerType) :
+        RecyclerView.ViewHolder(v),
         View.OnClickListener {
         private var view: View = v
         private var content: TableOfContentsItemWrapper? = null
@@ -61,7 +67,7 @@ class TableOfContentsAdapter(
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
 
-            val leftIndent = content.indent * 64
+            val leftIndent = content.indent * INDENT_PIXELS
 
             params.setMargins(leftIndent, 0, 0, 0)
 
