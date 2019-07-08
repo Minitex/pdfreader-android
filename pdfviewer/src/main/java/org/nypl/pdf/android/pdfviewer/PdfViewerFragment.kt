@@ -19,6 +19,15 @@ import org.nypl.pdf.android.api.TableOfContentsItem
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 
+/**
+ * [Fragment] subclass for displaying PDF documents rendered with
+ * the PdfViewer library.
+ * Activities that contain this fragment must implement the
+ * [PdfFragmentListenerType] interface
+ * to handle interaction events.
+ * Use the [PdfViewerFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ */
 class PdfViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListener {
 
     companion object {
