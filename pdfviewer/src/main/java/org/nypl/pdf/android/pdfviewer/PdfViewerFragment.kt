@@ -30,7 +30,7 @@ class PdfViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
          */
         @JvmStatic
         fun newInstance(): PdfViewerFragment {
-            // TODO: Would it be better to initialize here rather than calling back via interface for first assignments?
+            // Could move Fragment initialization here instead of listeners if wanted.
             return PdfViewerFragment()
         }
     }
@@ -79,10 +79,10 @@ class PdfViewerFragment : Fragment(), OnPageChangeListener, OnLoadCompleteListen
 
         this.titleTextView = view.findViewById(R.id.title_textView)
         this.titleTextView.text = this.listener.onReaderWantsTitle()
-        // TODO: Handle hud colors? this.titleTextView.setTextColor(Color.BLUE)
+        // To customize color: this.titleTextView.setTextColor(Color.BLUE)
 
         this.tocImage = view.findViewById(R.id.reader_toc)
-        // TODO: Handle hud colors? this.tocImage.setColorFilter(Color.BLACK)
+        // To customize color: this.tocImage.setColorFilter(Color.BLACK)
         this.tocImage.setOnClickListener {
             this.listener.onReaderWantsTableOfContentsFragment()
         }

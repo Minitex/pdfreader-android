@@ -32,8 +32,7 @@ class TableOfContentsFragment : Fragment() {
          */
         @JvmStatic
         fun newInstance(): TableOfContentsFragment {
-            // TODO: Could do any initialization we wanted here and pass in params if needed. Anything here instead
-            // of listeners?
+            // Could move Fragment initialization here instead of listeners if wanted.
             return TableOfContentsFragment()
         }
     }
@@ -81,7 +80,7 @@ class TableOfContentsFragment : Fragment() {
 
         titleTextView = view.findViewById(R.id.toc_title_textView)
         titleTextView.text = listener.onTableOfContentsWantsTitle()
-        // TODO: Handle hud colors? this.titleTextView.setTextColor(Color.BLUE)
+        // To customize color: this.titleTextView.setTextColor(Color.BLUE)
 
         // RecyclerView Setup
         val elements = wrapTableOfContentsList(tableOfContentsList)
