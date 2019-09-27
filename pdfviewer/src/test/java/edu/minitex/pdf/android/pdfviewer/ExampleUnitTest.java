@@ -1,4 +1,4 @@
-package edu.umn.minitex.pdf.android.pdfviewer;
+package edu.minitex.pdf.android.pdfviewer;
 
 import org.junit.Test;
 
