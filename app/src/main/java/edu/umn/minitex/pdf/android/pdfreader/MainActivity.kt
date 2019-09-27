@@ -1,8 +1,9 @@
-package org.nypl.pdf.android.pdfreader
+package edu.umn.minitex.pdf.android.pdfreader
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import edu.umn.minitex.pdf.android.pdfreader.R
 
 /**
  * Main Activity of the Sample app for the PdfReader library.
@@ -20,19 +21,31 @@ class MainActivity : AppCompatActivity() {
         // Open Google Slides doc
         this.googleButton = findViewById(R.id.google_button)
         this.googleButton.setOnClickListener {
-            PdfReaderActivity.startActivity(this, PdfReaderParameters("sample.pdf", 0))
+            PdfReaderActivity.startActivity(
+                this,
+                PdfReaderParameters("sample.pdf", 0)
+            )
         }
 
         // Alice in Wonderland
         this.aliceButton = findViewById(R.id.alice_button)
         this.aliceButton.setOnClickListener {
-            PdfReaderActivity.startActivity(this, PdfReaderParameters("aliceInWonderland.pdf", 0))
+            PdfReaderActivity.startActivity(
+                this,
+                PdfReaderParameters(
+                    "aliceInWonderland.pdf",
+                    0
+                )
+            )
         }
 
         // DC Circuits - this document has a table of contents.
         this.circuitButton = findViewById(R.id.circuit_button)
         this.circuitButton.setOnClickListener {
-            PdfReaderActivity.startActivity(this, PdfReaderParameters("dcCircuits.pdf", 0))
+            PdfReaderActivity.startActivity(
+                this,
+                PdfReaderParameters("dcCircuits.pdf", 0)
+            )
         }
     }
 }

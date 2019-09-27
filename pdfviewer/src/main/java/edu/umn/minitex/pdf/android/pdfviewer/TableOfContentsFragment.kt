@@ -1,4 +1,4 @@
-package org.nypl.pdf.android.pdfviewer
+package edu.umn.minitex.pdf.android.pdfviewer
 
 import android.content.Context
 import android.os.Bundle
@@ -9,8 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
-import org.nypl.pdf.android.api.TableOfContentsItem
+import edu.umn.minitex.pdf.android.api.TableOfContentsFragmentListenerType
+import edu.umn.minitex.pdf.android.api.TableOfContentsItem
+import edu.umn.minitex.pdf.android.pdfviewer.R
 import org.slf4j.LoggerFactory
 
 /**
@@ -93,7 +94,8 @@ class TableOfContentsFragment : Fragment() {
             recyclerView.visibility = View.VISIBLE
 
             recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = TableOfContentsAdapter(elements, listener)
+            recyclerView.adapter =
+                TableOfContentsAdapter(elements, listener)
         } else {
             recyclerView.visibility = View.GONE
             noDataView.visibility = View.VISIBLE
@@ -125,7 +127,12 @@ class TableOfContentsFragment : Fragment() {
         tocItem: TableOfContentsItem
     ) {
         // Add current element
-        wrappedList.add(TableOfContentsItemWrapper(tocItem, indent))
+        wrappedList.add(
+            TableOfContentsItemWrapper(
+                tocItem,
+                indent
+            )
+        )
 
         // Recursively call with an incremented indent value
         for (child in tocItem.children) {

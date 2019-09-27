@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.nypl.pdf.android.pdfreader">
+          package="edu.umn.minitex.pdf.android.pdfreader">
 
     <application
             android:allowBackup="true"
@@ -10,12 +10,12 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".PdfReaderActivity"
+                android:name="edu.umn.minitex.pdf.android.pdfreader.PdfReaderActivity"
                 android:label="@string/title_activity_pdf_reader"
                 android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="edu.umn.minitex.pdf.android.pdfreader.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

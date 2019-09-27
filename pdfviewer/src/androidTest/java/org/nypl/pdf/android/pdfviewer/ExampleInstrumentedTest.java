@@ -1,4 +1,4 @@
-package org.nypl.pdf.android.pdfviewer;
+package edu.umn.minitex.pdf.android.pdfviewer;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.nypl.pdf.android.pdfviewer.test", appContext.getPackageName());
+        assertEquals("edu.umn.minitex.pdf.android.pdfviewer.test", appContext.getPackageName());
     }
 }

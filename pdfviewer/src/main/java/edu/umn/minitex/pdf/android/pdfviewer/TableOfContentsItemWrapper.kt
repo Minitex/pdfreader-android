@@ -1,6 +1,6 @@
-package org.nypl.pdf.android.pdfviewer
+package edu.umn.minitex.pdf.android.pdfviewer
 
-import org.nypl.pdf.android.api.TableOfContentsItem
+import edu.umn.minitex.pdf.android.api.TableOfContentsItem
 
 /**
  * Represents a "wrapped" [TableOfContentsItem].

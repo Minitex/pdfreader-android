@@ -1,4 +1,4 @@
-package org.nypl.pdf.android.api
+package edu.umn.minitex.pdf.android.api
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

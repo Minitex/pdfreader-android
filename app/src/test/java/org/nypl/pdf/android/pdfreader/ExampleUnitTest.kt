@@ -1,4 +1,4 @@
-package org.nypl.pdf.android.pdfreader
+package edu.umn.minitex.pdf.android.pdfreader
 
 import org.junit.Test
 

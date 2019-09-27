@@ -1,14 +1,15 @@
-package org.nypl.pdf.android.pdfreader
+package edu.umn.minitex.pdf.android.pdfreader
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import org.nypl.pdf.android.api.PdfFragmentListenerType
-import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
-import org.nypl.pdf.android.api.TableOfContentsItem
-import org.nypl.pdf.android.pdfviewer.PdfViewerFragment
-import org.nypl.pdf.android.pdfviewer.TableOfContentsFragment
+import edu.umn.minitex.pdf.android.api.PdfFragmentListenerType
+import edu.umn.minitex.pdf.android.api.TableOfContentsFragmentListenerType
+import edu.umn.minitex.pdf.android.api.TableOfContentsItem
+import edu.umn.minitex.pdf.android.pdfreader.R
+import edu.umn.minitex.pdf.android.pdfviewer.PdfViewerFragment
+import edu.umn.minitex.pdf.android.pdfviewer.TableOfContentsFragment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
@@ -18,13 +19,15 @@ import java.io.InputStream
  * Fragments that are rendering the PDF when they ask for it via
  * [PdfFragmentListenerType] and [TableOfContentsFragmentListenerType] events.
  */
-class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfContentsFragmentListenerType {
+class PdfReaderActivity : AppCompatActivity(),
+    PdfFragmentListenerType,
+    TableOfContentsFragmentListenerType {
 
     companion object {
         const val KEY_PAGE_INDEX = "page_index"
         const val TABLE_OF_CONTENTS = "table_of_contents"
 
-        private const val PARAMS_ID = "org.nypl.pdf.android.pdfreader.PdfReaderActivity.params"
+        private const val PARAMS_ID = "edu.umn.minitex.pdf.android.pdfreader.PdfReaderActivity.params"
 
         /**
          * Factory method to start a [PdfReaderActivity]
@@ -35,7 +38,7 @@ class PdfReaderActivity : AppCompatActivity(), PdfFragmentListenerType, TableOfC
         ) {
 
             val b = Bundle()
-            b.putSerializable(this.PARAMS_ID, parameters)
+            b.putSerializable(PARAMS_ID, parameters)
             val i = Intent(from, PdfReaderActivity::class.java)
             i.putExtras(b)
             from.startActivity(i)

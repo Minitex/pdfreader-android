@@ -1,4 +1,4 @@
-package org.nypl.pdf.android.pdfviewer
+package edu.umn.minitex.pdf.android.pdfviewer
 
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.table_of_contents_element.view.*
-import org.nypl.pdf.android.api.TableOfContentsFragmentListenerType
+import edu.umn.minitex.pdf.android.api.TableOfContentsFragmentListenerType
+import edu.umn.minitex.pdf.android.pdfviewer.R
 
 /**
  * [RecyclerView.Adapter] subclass for holding [TableOfContentsItemWrapper]
@@ -28,7 +29,10 @@ class TableOfContentsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentsHolder {
         val inflatedView = parent.inflate(R.layout.table_of_contents_element, false)
-        return ContentsHolder(inflatedView, listener)
+        return ContentsHolder(
+            inflatedView,
+            listener
+        )
     }
 
     override fun getItemCount(): Int {

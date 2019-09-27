@@ -1,4 +1,4 @@
-package org.nypl.pdf.android.api;
+package edu.umn.minitex.pdf.android.api;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.nypl.pdf.android.api.test", appContext.getPackageName());
+        assertEquals("edu.umn.minitex.pdf.android.api.test", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package org.nypl.pdf.android.api
+package edu.umn.minitex.pdf.android.api
 
 /**
  * The listener interface implemented by activities hosting fragments for the Table of Contents.

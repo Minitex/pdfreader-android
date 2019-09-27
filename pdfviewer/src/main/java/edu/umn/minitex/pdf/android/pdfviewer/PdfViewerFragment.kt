@@ -1,4 +1,4 @@
-package org.nypl.pdf.android.pdfviewer
+package edu.umn.minitex.pdf.android.pdfviewer
 
 import android.content.Context
 import android.os.Bundle
@@ -14,8 +14,9 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
 import com.github.barteksc.pdfviewer.util.FitPolicy
 import com.shockwave.pdfium.PdfDocument
-import org.nypl.pdf.android.api.PdfFragmentListenerType
-import org.nypl.pdf.android.api.TableOfContentsItem
+import edu.umn.minitex.pdf.android.api.PdfFragmentListenerType
+import edu.umn.minitex.pdf.android.api.TableOfContentsItem
+import edu.umn.minitex.pdf.android.pdfviewer.R
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 
