@@ -1,5 +1,7 @@
 # pdfreader-android
 
+[![Maven Central](https://img.shields.io/maven-central/v/edu.umn.minitex.pdf/edu.umn.minitex.pdf.api.svg?style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22edu.umn.minitex.pdf%22)
+
 Holds implementation of a PdfReader library for Android.
 
 ### Project Structure
