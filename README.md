@@ -2,34 +2,63 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/edu.umn.minitex.pdf/edu.umn.minitex.pdf.api.svg?style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22edu.umn.minitex.pdf%22)
 
-Holds implementation of a PdfReader library for Android.
+Repository for a PdfReader library for Android.
 
-### Project Structure
+## Project Structure
 
-This repository's project has multiple modules. `app` is a basic demo to demonstrate an implementation of the library.
+This repository's project has multiple modules: 
 
+### app
+`app` is a basic demo to demonstrate an implementation of the library.
+
+### api
 The `api` module defines a common set of interfaces/classes that all reader implementations will use.
 
+### implementations
+
+The library is designed to support multiple implementations of the `api` module. This creates a common API that different renderers can implement, allowing the user to chooser which rendering module they want to use. 
+
+Currently there is only one implementation in this repository:
+
+### pdfviewer
 `pdfviewer` is an implementation of an [Android wrapper of the Pdfium renderer](https://github.com/barteksc/AndroidPdfViewer). 
 
 All implementations should handle types defined in the `api` module.
 
-### Usage
+## Usage
 
 The library can be used by an Activity that implements types from the `api` package. 
 
-#### 1. Add `api` and any implementations you will be using to `build.gradle`
+1. Add `api` and any implementations you will be using to `build.gradle` (See the maven-central badge at the top of this file for the most recent version).
 
 ```groovy
-dependencies {    
-    // TODO: Change this to work with nexus
+dependencies {
+    // common api
+    implementation 'edu.umn.minitex.pdf:edu.umn.minitex.pdf.api:0.1.0'
 
-    // pdf viewer
-    api 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
+    // rending implementation
+    implementation 'edu.umn.minitex.pdf:edu.umn.minitex.pdf.pdfviewer:0.1.0'
 }
 ```
 
-#### 2. Load desired reader into a FrameLayout, (`pdf_reader_fragment_holder` here).
+2. Load desired reader into a FrameLayout (snippets from sample in `app` module).
+`activity_pdf_reader.xml`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/pdf_reader_fragment_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+```
+
+`PdfReaderActivity.kt`
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
         
@@ -47,7 +76,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 }
 ```
 
-#### 3. Implement `PdfFragmentListenerType` in your reader Activity.
+3. Implement `PdfFragmentListenerType` in your reader Activity.
 
 The Fragment will ask for metadata from the hosting Activity and you provide it here. Currently the library only accepts an InputStream, but this can be extended in the future.
 
@@ -85,7 +114,7 @@ The Fragment will ask for metadata from the hosting Activity and you provide it 
     }
 ```
 
-#### 4. If chosen implementation requires and supports it, also implement the `TableOfContentsFragmentListenerType` to replace the reader with a Table of Contents Fragment
+4. If chosen implementation requires and supports it, also implement the `TableOfContentsFragmentListenerType` to replace the reader with a Table of Contents Fragment
 
 ```kotlin
     override fun onTableOfContentsWantsItems(): ArrayList<TableOfContentsItem> {
@@ -108,7 +137,13 @@ The Fragment will ask for metadata from the hosting Activity and you provide it 
 ```
 
 
-### Dependencies
+## Dependencies
+
+### api
+
+The `api` module has no third-party dependencies.
+
+### pdfreader
 
 The `pdfreader` api package depends on an [Android wrapper of the Pdfium renderer](https://github.com/barteksc/AndroidPdfViewer).
 
@@ -121,5 +156,6 @@ dependencies {
 }
 ```
 
+## Funding
 
 This work is funded through IMLS Grant # LG-70-16-0010.
