@@ -15,4 +15,8 @@ dependencies {
     // Core API and implementation modules
     implementation project(path: ':api')
     implementation project(path: ':pdfviewer')
+
+    // Maven Central coordinates - use these to use library in other projects
+//    implementation 'edu.umn.minitex.pdf:edu.umn.minitex.pdf.api:0.1.0'
+//    implementation 'edu.umn.minitex.pdf:edu.umn.minitex.pdf.pdfviewer:0.1.0'
 }
